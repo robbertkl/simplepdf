@@ -1,0 +1,13 @@
+source: classes
+destination: docs
+
+title: SimplePdf API
+templateConfig: vendor/apigen/apigen/templates/bootstrap/config.neon
+
+extensions: [php]
+accessLevels: [public]
+
+php: No
+deprecated: Yes
+todo: Yes
+download: Yes

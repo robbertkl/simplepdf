@@ -1,0 +1,35 @@
+{
+    "name": "robbertkl/simplepdf",
+    "description": "Simple extension of ZendPdf, allowing top-to-bottom geometry using centimeters",
+    "keywords": ["pdf"],
+    "homepage": "https://github.com/robbertkl/simplepdf",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robbert Klarenbeek",
+            "email": "robbertkl@renbeek.nl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/robbertkl/simplepdf/issues",
+        "source": "https://github.com/robbertkl/simplepdf"
+    },
+    "autoload": {
+        "psr-0": {
+            "SimplePdf\\": "classes/"
+        }
+    },
+    "require": {
+        "php": ">=5.3",
+        "zendframework/zendpdf": "~2.0"
+    },
+    "require-dev": {
+        "apigen/apigen": "2.*",
+        "squizlabs/php_codesniffer": "1.*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
+}

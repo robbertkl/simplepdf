@@ -1,0 +1,4 @@
+*       text=auto
+*.php   text diff=php
+*.html  text diff=html
+*.xml   text diff=html

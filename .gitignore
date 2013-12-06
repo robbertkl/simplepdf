@@ -1,0 +1,20 @@
+# General garbage
+.DS_Store
+Thumbs.db
+*.bak
+*.sql
+
+# IDE project files/dirs
+/.build
+/.buildpath
+/.idea
+/.project
+/.settings
+
+# Composer
+/composer.lock
+/composer.phar
+/vendor/
+
+# Generated API documentation
+/docs/
