@@ -15,16 +15,23 @@ class Page extends \ZendPdf\Page
     /**
      * Constant for left aligned text
      *
-     * @var string
+     * @var float
      */
-    const TEXT_ALIGN_LEFT = 'left';
+    const TEXT_ALIGN_LEFT = 0;
+
+    /**
+     * Constant for center aligned text
+     *
+     * @var float
+     */
+    const TEXT_ALIGN_CENTER = 0.5;
 
     /**
      * Constant for right aligned text
      *
-     * @var string
+     * @var float
      */
-    const TEXT_ALIGN_RIGHT = 'right';
+    const TEXT_ALIGN_RIGHT = 1;
 
     /**
      * Constant for point (native) units
@@ -241,10 +248,10 @@ class Page extends \ZendPdf\Page
      * @param float $x x-coordinate (in the given units) of the anchor point of the text
      * @param float $y y-coordinate (in the given units) of the anchor point of the text
      * @param string $text text to write to the PDF (can contain newlines)
-     * @param string $align either Page::TEXT_ALIGN_LEFT or Page::TEXT_ALIGN_RIGHT, for left or right alignment
+     * @param float $anchorPoint horizontal position (0..1) to anchor each line, defaults to self::TEXT_ALIGN_LEFT
      * @param float $wrapWidth width (in the given units) to wrap text at, or leave out for no wrapping
      */
-    public function writeText($x, $y, $text, $align = self::TEXT_ALIGN_LEFT, $wrapWidth = 0)
+    public function writeText($x, $y, $text, $anchorPoint = self::TEXT_ALIGN_LEFT, $wrapWidth = 0)
     {
         if ($wrapWidth > 0) {
             $text = $this->wordWrapText($text, $wrapWidth);
@@ -256,8 +263,8 @@ class Page extends \ZendPdf\Page
                 continue;
             }
 
-            $alignOffset = ($align == self::TEXT_ALIGN_RIGHT ? -$this->getTextWidth($line) : 0);
-            $this->writeLine($x + $alignOffset, $y + $index * $lineHeight, $line);
+            $anchorOffset = ($anchorPoint == 0) ? 0 : -$anchorPoint * $this->getTextWidth($line);
+            $this->writeLine($x + $anchorOffset, $y + $index * $lineHeight, $line);
         }
     }
 

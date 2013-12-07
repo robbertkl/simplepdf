@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates a simple 1-page PDF with right-aligned, word-wrapped lorem ipsum text
+ * Creates a simple 1-page PDF with center-aligned, word-wrapped lorem ipsum text and lines marking the margins
  *
  * Usage: php examples/example.php <output-file>
  *
@@ -30,10 +30,17 @@ $longText = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do ei
 // Use given $pageSize and $units, instead of the default A4 / centimeter
 $page = new \SimplePdf\Page($pageSize, $units);
 
+// Draw lines marking the page margins
+$page->setLineWidth(0.5);
+$page->drawLine(0, $pageMargin, $page->getWidth(), $pageMargin);
+$page->drawLine(0, $page->getHeight() - $pageMargin, $page->getWidth(), $page->getHeight() - $pageMargin);
+$page->drawLine($pageMargin, 0, $pageMargin, $page->getHeight());
+$page->drawLine($page->getWidth() - $pageMargin, 0, $page->getWidth() - $pageMargin, $page->getHeight());
+
+// Write the long text, word-wrapped and aligned in the center of the page
 $page->setFontSize($fontSize);
 $page->setLineSpacing($lineSpacing);
-
-$page->writeText($page->getWidth() - $pageMargin, $pageMargin, $longText, \SimplePdf\Page::TEXT_ALIGN_RIGHT, $page->getWidth () - 2 * $pageMargin);
+$page->writeText($page->getWidth() / 2, $pageMargin, $longText, \SimplePdf\Page::TEXT_ALIGN_CENTER, $page->getWidth () - 2 * $pageMargin);
 
 $pdf = new \ZendPdf\PdfDocument();
 $pdf->pages[] = $page;
