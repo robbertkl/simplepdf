@@ -1,6 +1,6 @@
 {
     "name": "robbertkl/simplepdf",
-    "description": "Simple extension of ZendPdf, allowing top-to-bottom geometry using centimeters",
+    "description": "Simple extension of ZendPdf, allowing top-to-bottom geometry using arbitrary units (e.g. inches or centimeters)",
     "keywords": ["pdf"],
     "homepage": "https://github.com/robbertkl/simplepdf",
     "license": "MIT",
