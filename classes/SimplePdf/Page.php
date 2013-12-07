@@ -3,8 +3,8 @@ namespace SimplePdf;
 
 /**
  * Extension of ZendPdf\Page which allows using arbitrary units (e.g. inches or centimeters) and works from
- * top to bottom, instead of default PDF/PostScript geometry. It also adds some text formatting utilities,
- * like word wrap and text alignment.
+ * top to bottom, instead of default PDF/PostScript geometry. It also adds some basic formatting functionality,
+ * like word wrap, margins and text alignment.
  *
  * @author Robbert Klarenbeek <robbertkl@renbeek.nl>
  * @copyright 2013 Robbert Klarenbeek
@@ -76,6 +76,34 @@ class Page extends \ZendPdf\Page
     protected $lineSpacing = 1.0;
 
     /**
+     * Margin on the left side of the page, stored in points
+     *
+     * @var float
+     */
+    protected $marginLeft = 0;
+
+    /**
+     * Margin on the right side of the page, stored in points
+     *
+     * @var float
+     */
+    protected $marginRight = 0;
+
+    /**
+     * Margin on the top edge, stored in points
+     *
+     * @var float
+     */
+    protected $marginTop = 0;
+
+    /**
+     * Margin on the bottom edge, stored in points
+     *
+     * @var float
+     */
+    protected $marginBottom = 0;
+
+    /**
      * Create a new PDF page, with A4 size and default font Helvetica, size 12
      *
      * @param string $size page size (see \ZendPdf\Page), default A4 size
@@ -129,23 +157,25 @@ class Page extends \ZendPdf\Page
     }
 
     /**
-     * Convert (x,y)-coordinates in the user space (top to bottom, in the given units)
+     * Convert (x,y)-coordinates in the user space (top to bottom, in the given units, relative to the margins)
      * to native geometry (points, bottom to top)
      *
-     * @param float &$x x-coordinate (in the given units, from the left) to convert, BY REF
-     * @param float &$y y-coordinate (in the given units, from the top) to convert, BY REF
+     * @param float &$x x-coordinate (in the given units, from the left margin) to convert, BY REF
+     * @param float &$y y-coordinate (in the given units, from the top margin) to convert, BY REF
      */
     public function convertCoordinatesFromUserSpace(&$x, &$y)
     {
+        $x += $this->getLeftMargin();
         $this->convertToPoints($x);
 
+        $y += $this->getTopMargin();
         $y = $this->getHeight() - $y;
         $this->convertToPoints($y);
     }
 
     /**
      * Convert (x,y)-coordinates in native geometry (points, bottom to top) to the
-     * user space (top to bottom, in the given units)
+     * user space (top to bottom, in the given units, relative to the margins)
      *
      * @param float &$x x-coordinate (in points, from the left) to convert, BY REF
      * @param float &$y y-coordinate (in points, from the bottom) to convert, BY REF
@@ -153,9 +183,11 @@ class Page extends \ZendPdf\Page
     public function convertCoordinatesToUserSpace(&$x, &$y)
     {
         $this->convertFromPoints($x);
+        $x -= $this->getLeftMargin();
 
         $this->convertFromPoints($y);
         $y = $this->getHeight() - $y;
+        $x -= $this->getLeftMargin();
     }
 
     /**
@@ -179,6 +211,124 @@ class Page extends \ZendPdf\Page
     }
 
     /**
+     * Get the left margin of the page, in the given units
+     *
+     * @return float left page margin, in the given units
+     */
+    public function getLeftMargin()
+    {
+        $marginLeft = $this->marginLeft;
+        $this->convertFromPoints($marginLeft);
+        return $marginLeft;
+    }
+
+    /**
+     * Set a new left margin, in the given units
+     *
+     * @param float $margin new left margin, in the given units
+     */
+    public function setLeftMargin($margin)
+    {
+        $this->convertToPoints($margin);
+        $this->marginLeft = $margin;
+    }
+
+    /**
+     * Get the right margin of the page, in the given units
+     *
+     * @return float right page margin, in the given units
+     */
+    public function getRightMargin()
+    {
+        $marginRight = $this->marginRight;
+        $this->convertFromPoints($marginRight);
+        return $marginRight;
+    }
+
+    /**
+     * Set a new right margin, in the given units
+     *
+     * @param float $margin new right margin, in the given units
+     */
+    public function setRightMargin($margin)
+    {
+        $this->convertToPoints($margin);
+        $this->marginRight = $margin;
+    }
+
+    /**
+     * Get the top margin of the page, in the given units
+     *
+     * @return float top page margin, in the given units
+     */
+    public function getTopMargin()
+    {
+        $marginTop = $this->marginTop;
+        $this->convertFromPoints($marginTop);
+        return $marginTop;
+    }
+
+    /**
+     * Set a new top margin, in the given units
+     *
+     * @param float $margin new top margin, in the given units
+     */
+    public function setTopMargin($margin)
+    {
+        $this->convertToPoints($margin);
+        $this->marginTop = $margin;
+    }
+
+    /**
+     * Get the bottom margin of the page, in the given units
+     *
+     * @return float bottom page margin, in the given units
+     */
+    public function getBottomMargin()
+    {
+        $marginBottom = $this->marginBottom;
+        $this->convertFromPoints($marginBottom);
+        return $marginBottom;
+    }
+
+    /**
+     * Set a new bottom margin, in the given units
+     *
+     * @param float $margin new bottom margin, in the given units
+     */
+    public function setBottomMargin($margin)
+    {
+        $this->convertToPoints($margin);
+        $this->marginBottom = $margin;
+    }
+
+    /**
+     * Set new margin, in the given units
+     *
+     * @param float $marginLeft new left margin, in the given units
+     * @param float $marginRight new right margin, in the given units
+     * @param float $marginTop new top margin, in the given units
+     * @param float $marginBottom new bottom margin, in the given units
+     */
+    public function setMargins($marginLeft, $marginRight, $marginTop, $marginBottom)
+    {
+        $this->setLeftMargin($marginLeft);
+        $this->setRightMargin($marginRight);
+        $this->setTopMargin($marginTop);
+        $this->setBottomMargin($marginBottom);
+    }
+
+    /**
+     * Set a new margin for all sides, in the given units
+     *
+     * @param float $margin new margin to set on all sides, in the given units
+     */
+    public function setAllMargins($margin)
+    {
+        $this->setMargins($margin, $margin, $margin, $margin);
+    }
+
+    /**
      * Get page width in the given units
      *
      * @return float width of the page in the given units
@@ -191,6 +341,16 @@ class Page extends \ZendPdf\Page
     }
 
     /**
+     * Get the width (in the given units) of the page area excluding the set margins (if any)
+     *
+     * @return float page width in the given units, excluding margins
+     */
+    public function getInnerWidth()
+    {
+        return $this->getWidth() - $this->getLeftMargin() - $this->getRightMargin();
+    }
+
+    /**
      * Get page height in the given units
      *
      * @return float height of the page in the given units
@@ -200,6 +360,16 @@ class Page extends \ZendPdf\Page
         $height = parent::getHeight();
         $this->convertFromPoints($height);
         return $height;
+    }
+
+    /**
+     * Get the height (in the given units) of the page area excluding the set margins (if any)
+     *
+     * @return float page height in the given units, excluding margins
+     */
+    public function getInnerHeight()
+    {
+        return $this->getHeight() - $this->getTopMargin() - $this->getBottomMargin();
     }
 
     /**

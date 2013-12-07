@@ -29,18 +29,20 @@ $longText = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do ei
 
 // Use given $pageSize and $units, instead of the default A4 / centimeter
 $page = new \SimplePdf\Page($pageSize, $units);
+$page->setAllMargins($pageMargin);
 
 // Draw lines marking the page margins
 $page->setLineWidth(0.5);
-$page->drawLine(0, $pageMargin, $page->getWidth(), $pageMargin);
-$page->drawLine(0, $page->getHeight() - $pageMargin, $page->getWidth(), $page->getHeight() - $pageMargin);
-$page->drawLine($pageMargin, 0, $pageMargin, $page->getHeight());
-$page->drawLine($page->getWidth() - $pageMargin, 0, $page->getWidth() - $pageMargin, $page->getHeight());
+$stickOut = $pageMargin / 2;
+$page->drawLine(-$stickOut, 0, $page->getInnerWidth() + $stickOut, 0);
+$page->drawLine(-$stickOut, $page->getInnerHeight(), $page->getInnerWidth() + $stickOut, $page->getInnerHeight());
+$page->drawLine(0, -$stickOut, 0, $page->getInnerHeight() + $stickOut);
+$page->drawLine($page->getInnerWidth(), -$stickOut, $page->getInnerWidth(), $page->getInnerHeight() + $stickOut);
 
 // Write the long text, word-wrapped and aligned in the center of the page
 $page->setFontSize($fontSize);
 $page->setLineSpacing($lineSpacing);
-$page->writeText($page->getWidth() / 2, $pageMargin, $longText, \SimplePdf\Page::TEXT_ALIGN_CENTER, $page->getWidth () - 2 * $pageMargin);
+$page->writeText($page->getInnerWidth() / 2, 0, $longText, \SimplePdf\Page::TEXT_ALIGN_CENTER, $page->getInnerWidth());
 
 $pdf = new \ZendPdf\PdfDocument();
 $pdf->pages[] = $page;

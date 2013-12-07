@@ -4,7 +4,7 @@
 
 Internal PDF geometry (and therefore ZendPdf as well) uses "points" (1/72 of an inch), with [0, 0] being the bottom left corner of a page.
 This library, which extends ZendPdf, changes this by using arbitrary units (e.g. inches or centimeters) and going from top-to-bottom, which makes much more sense from a user's persepective.
-Also, very basic functionality has been added, like text alignment and word wrap.
+Also, very basic functionality has been added, like text alignment, margins and word wrap.
 
 SimplePdf is [PSR-0](http://www.php-fig.org/psr/psr-0/), [PSR-1](http://www.php-fig.org/psr/psr-1/) and [PSR-2](http://www.php-fig.org/psr/psr-2/) compliant.
 
