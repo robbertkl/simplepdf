@@ -91,9 +91,10 @@
 
 	<div class="description">
 	
-<p>Extension of ZendPdf\Page which allows uses centimeters and works from top to
-bottom, instead of default PDF/PostScript geometry. It also adds some text
-formatting utilities, like word wrap and text alignment.</p>
+<p>Extension of ZendPdf\Page which allows using arbitrary units (e.g. inches or
+centimeters) and works from top to bottom, instead of default PDF/PostScript
+geometry. It also adds some text formatting utilities, like word wrap and text
+alignment.</p>
 
 	</div>
 
@@ -131,7 +132,7 @@ ZendPdf\Page
 				<b>Author:</b>
 				Robbert Klarenbeek &lt;<a
 href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<br />
-		<b>Located at</b> <a href="source-class-SimplePdf.Page.html#4-234" title="Go to source code">SimplePdf/Page.php</a><br />
+		<b>Located at</b> <a href="source-class-SimplePdf.Page.html#4-339" title="Go to source code">SimplePdf/Page.php</a><br />
 	</div>
 
 
@@ -149,7 +150,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#46-53" title="Go to source code">__construct</a>( )</code>
+			<code><a href="source-class-SimplePdf.Page.html#71-82" title="Go to source code">__construct</a>( <span>string <var>$size</var> = self::SIZE_A4</span>, <span>float <var>$unitConversion</var> = <code><a href="class-SimplePdf.Page.html#UNITS_CENTIMETER">SimplePdf\Page::<b>UNITS_CENTIMETER</b></a></code></span> )</code>
 
 			<div class="description short">
 				
@@ -163,6 +164,253 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$size</var></dt>
+						<dd><code>string</code><br>$size page size (see \ZendPdf\Page), default A4 size</dd>
+						<dt><var>$unitConversion</var></dt>
+						<dd><code>float</code><br>$unitConversion conversion factor for custom units, default
+self::UNITS_CENTIMETER</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getUnitConversion" id="_getUnitConversion">
+
+			<td class="attributes"><code>
+				 public 
+				float
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getUnitConversion">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#84-92" title="Go to source code">getUnitConversion</a>( )</code>
+
+			<div class="description short">
+				
+<p>Get the current conversion factor to convert from/to native units
+(points)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Get the current conversion factor to convert from/to native units
+(points)</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>float</code><br>current conversion factor<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setUnitConversion" id="_setUnitConversion">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setUnitConversion">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#94-102" title="Go to source code">setUnitConversion</a>( <span>float <var>$unitConversion</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Sets the conversion factor to use to convert from/to native units
+(points)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the conversion factor to use to convert from/to native units
+(points)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$unitConversion</var></dt>
+						<dd><code>float</code><br>$unitConversion new conversion factor</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="convertToPoints" id="_convertToPoints">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_convertToPoints">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#104-112" title="Go to source code">convertToPoints</a>( <span>float <var>&amp; $number</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Convert a value in the given units to points</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Convert a value in the given units to points</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$number</var></dt>
+						<dd><code>float</code><br>&amp;$number number (in the given units) to convert, BY REF</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="convertFromPoints" id="_convertFromPoints">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_convertFromPoints">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#114-122" title="Go to source code">convertFromPoints</a>( <span>float <var>&amp; $number</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Convert a value in points to the given units</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Convert a value in points to the given units</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$number</var></dt>
+						<dd><code>float</code><br>&amp;$number number (in points) to convert, BY REF</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="convertCoordinatesFromUserSpace" id="_convertCoordinatesFromUserSpace">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_convertCoordinatesFromUserSpace">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#124-137" title="Go to source code">convertCoordinatesFromUserSpace</a>( <span>float <var>&amp; $x</var></span>, <span>float <var>&amp; $y</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Convert (x,y)-coordinates in the user space (top to bottom, in the given
+units) to native geometry (points, bottom to top)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Convert (x,y)-coordinates in the user space (top to bottom, in the given
+units) to native geometry (points, bottom to top)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$x</var></dt>
+						<dd><code>float</code><br>&amp;$x x-coordinate (in the given units, from the left) to convert, BY REF</dd>
+						<dt><var>$y</var></dt>
+						<dd><code>float</code><br>&amp;$y y-coordinate (in the given units, from the top) to convert, BY REF</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="convertCoordinatesToUserSpace" id="_convertCoordinatesToUserSpace">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_convertCoordinatesToUserSpace">#</a>
+			<code><a href="source-class-SimplePdf.Page.html#139-152" title="Go to source code">convertCoordinatesToUserSpace</a>( <span>float <var>&amp; $x</var></span>, <span>float <var>&amp; $y</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Convert (x,y)-coordinates in native geometry (points, bottom to top) to the
+user space (top to bottom, in the given units)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Convert (x,y)-coordinates in native geometry (points, bottom to top) to the
+user space (top to bottom, in the given units)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$x</var></dt>
+						<dd><code>float</code><br>&amp;$x x-coordinate (in points, from the left) to convert, BY REF</dd>
+						<dt><var>$y</var></dt>
+						<dd><code>float</code><br>&amp;$y y-coordinate (in points, from the bottom) to convert, BY REF</dd>
+					</dl></div>
 
 
 
@@ -182,7 +430,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getLineSpacing">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#55-63" title="Go to source code">getLineSpacing</a>( )</code>
+			<code><a href="source-class-SimplePdf.Page.html#154-162" title="Go to source code">getLineSpacing</a>( )</code>
 
 			<div class="description short">
 				
@@ -219,7 +467,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setLineSpacing">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#65-73" title="Go to source code">setLineSpacing</a>( <span>float <var>$lineSpacing</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#164-172" title="Go to source code">setLineSpacing</a>( <span>float <var>$lineSpacing</var></span> )</code>
 
 			<div class="description short">
 				
@@ -257,24 +505,24 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getWidth">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#75-83" title="Go to source code">getWidth</a>( )</code>
+			<code><a href="source-class-SimplePdf.Page.html#174-184" title="Go to source code">getWidth</a>( )</code>
 
 			<div class="description short">
 				
-<p>Get page width in centimeters</p>
+<p>Get page width in the given units</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Get page width in centimeters</p>
+<p>Get page width in the given units</p>
 
 
 
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code>float</code><br>width of the page in centimeters<br />
+						<code>float</code><br>width of the page in the given units<br />
 					</div>
 
 
@@ -294,24 +542,24 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getHeight">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#85-93" title="Go to source code">getHeight</a>( )</code>
+			<code><a href="source-class-SimplePdf.Page.html#186-196" title="Go to source code">getHeight</a>( )</code>
 
 			<div class="description short">
 				
-<p>Get page height in centimeters</p>
+<p>Get page height in the given units</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Get page height in centimeters</p>
+<p>Get page height in the given units</p>
 
 
 
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code>float</code><br>height of the page in centimeters<br />
+						<code>float</code><br>height of the page in the given units<br />
 					</div>
 
 
@@ -331,7 +579,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFont">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#95-108" title="Go to source code">setFont</a>( <span>ZendPdf\Resource\Font\AbstractFont <var>$font</var></span>, <span>float <var>$fontSize</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#198-211" title="Go to source code">setFont</a>( <span>ZendPdf\Resource\Font\AbstractFont <var>$font</var></span>, <span>float <var>$fontSize</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				
@@ -371,7 +619,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFontSize">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#110-118" title="Go to source code">setFontSize</a>( <span>float <var>$fontSize</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#213-221" title="Go to source code">setFontSize</a>( <span>float <var>$fontSize</var></span> )</code>
 
 			<div class="description short">
 				
@@ -409,7 +657,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_drawLine">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#120-135" title="Go to source code">drawLine</a>( <span>float <var>$x1</var></span>, <span>float <var>$y1</var></span>, <span>float <var>$x2</var></span>, <span>float <var>$y2</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#223-236" title="Go to source code">drawLine</a>( <span>float <var>$x1</var></span>, <span>float <var>$y1</var></span>, <span>float <var>$x2</var></span>, <span>float <var>$y2</var></span> )</code>
 
 			<div class="description short">
 				
@@ -426,13 +674,13 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$x1</var></dt>
-						<dd><code>float</code><br>$x1 x coordinate (in centimeters) of the point from where to draw the line</dd>
+						<dd><code>float</code><br>$x1 x-coordinate (in the given units) of the point from where to draw the line</dd>
 						<dt><var>$y1</var></dt>
-						<dd><code>float</code><br>$y1 y coordinate (in centimeters) of the point from where to draw the line</dd>
+						<dd><code>float</code><br>$y1 y-coordinate (in the given units) of the point from where to draw the line</dd>
 						<dt><var>$x2</var></dt>
-						<dd><code>float</code><br>$x2 x coordinate (in centimeters) of the point to where to draw the line</dd>
+						<dd><code>float</code><br>$x2 x-coordinate (in the given units) of the point to where to draw the line</dd>
 						<dt><var>$y2</var></dt>
-						<dd><code>float</code><br>$y2 y coordinate (in centimeters) of the point to where to draw the line</dd>
+						<dd><code>float</code><br>$y2 y-coordinate (in the given units) of the point to where to draw the line</dd>
 					</dl></div>
 
 
@@ -453,7 +701,7 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_writeText">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#137-161" title="Go to source code">writeText</a>( <span>float <var>$x</var></span>, <span>float <var>$y</var></span>, <span>string <var>$text</var></span>, <span>string <var>$align</var> = <code><a href="class-SimplePdf.Page.html#TEXT_ALIGN_LEFT">SimplePdf\Page::<b>TEXT_ALIGN_LEFT</b></a></code></span>, <span>float <var>$wrapWidth</var> = <span class="php-num">0</span></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#238-262" title="Go to source code">writeText</a>( <span>float <var>$x</var></span>, <span>float <var>$y</var></span>, <span>string <var>$text</var></span>, <span>string <var>$align</var> = <code><a href="class-SimplePdf.Page.html#TEXT_ALIGN_LEFT">SimplePdf\Page::<b>TEXT_ALIGN_LEFT</b></a></code></span>, <span>float <var>$wrapWidth</var> = <span class="php-num">0</span></span> )</code>
 
 			<div class="description short">
 				
@@ -470,16 +718,17 @@ href="mailto:robbertkl&#64;renbeek.nl">robbertkl&#64;<!-- -->renbeek.nl</a>&gt;<
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$x</var></dt>
-						<dd><code>float</code><br>$x x coordinate (in centimeters) of the anchor point of the text</dd>
+						<dd><code>float</code><br>$x x-coordinate (in the given units) of the anchor point of the text</dd>
 						<dt><var>$y</var></dt>
-						<dd><code>float</code><br>$y y coordinate (in centimeters) of the anchor point of the text</dd>
+						<dd><code>float</code><br>$y y-coordinate (in the given units) of the anchor point of the text</dd>
 						<dt><var>$text</var></dt>
 						<dd><code>string</code><br>$text text to write to the PDF (can contain newlines)</dd>
 						<dt><var>$align</var></dt>
 						<dd><code>string</code><br>$align either Page::TEXT_ALIGN_LEFT or Page::TEXT_ALIGN_RIGHT, for left or right
-alignment respectively</dd>
+alignment</dd>
 						<dt><var>$wrapWidth</var></dt>
-						<dd><code>float</code><br>$wrapWidth width (in centimeters) to wrap text at, or leave out for no wrapping</dd>
+						<dd><code>float</code><br>$wrapWidth width (in the given units) to wrap text at, or leave out for no
+wrapping</dd>
 					</dl></div>
 
 
@@ -500,7 +749,7 @@ alignment respectively</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_writeLine">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#163-175" title="Go to source code">writeLine</a>( <span>float <var>$x</var></span>, <span>float <var>$y</var></span>, <span>string <var>$line</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#264-276" title="Go to source code">writeLine</a>( <span>float <var>$x</var></span>, <span>float <var>$y</var></span>, <span>string <var>$line</var></span> )</code>
 
 			<div class="description short">
 				
@@ -517,11 +766,11 @@ alignment respectively</dd>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$x</var></dt>
-						<dd><code>float</code><br>$x x coordinate (in centimeters) of the top-left corner where the text should
-start</dd>
+						<dd><code>float</code><br>$x x-coordinate (in the given units) of the top-left corner where the text
+should start</dd>
 						<dt><var>$y</var></dt>
-						<dd><code>float</code><br>$y y coordinate (in centimeters) of the top-left corner where the text should
-start</dd>
+						<dd><code>float</code><br>$y y-coordinate (in the given units) of the top-left corner where the text
+should start</dd>
 						<dt><var>$line</var></dt>
 						<dd><code>string</code><br>$line line to write to the page, should not contain newlines (and will NOT be
 wrapped)</dd>
@@ -545,7 +794,7 @@ wrapped)</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_wordWrapText">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#177-202" title="Go to source code">wordWrapText</a>( <span>string <var>$text</var></span>, <span>string <var>$wrapWidth</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#278-303" title="Go to source code">wordWrapText</a>( <span>string <var>$text</var></span>, <span>string <var>$wrapWidth</var></span> )</code>
 
 			<div class="description short">
 				
@@ -564,7 +813,7 @@ wrapped)</dd>
 						<dt><var>$text</var></dt>
 						<dd><code>string</code><br>$text text to wrap (can already contain some newlines)</dd>
 						<dt><var>$wrapWidth</var></dt>
-						<dd><code>string</code><br>$wrapWidth width (in centimeters) to wrap the text to</dd>
+						<dd><code>string</code><br>$wrapWidth width (in the given units) to wrap the text to</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -589,7 +838,7 @@ wrapped)</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getLineHeight">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#204-212" title="Go to source code">getLineHeight</a>( )</code>
+			<code><a href="source-class-SimplePdf.Page.html#305-315" title="Go to source code">getLineHeight</a>( )</code>
 
 			<div class="description short">
 				
@@ -606,7 +855,7 @@ wrapped)</dd>
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code>float</code><br>distance between consecutive lines in centimeters<br />
+						<code>float</code><br>distance between consecutive lines in the given units<br />
 					</div>
 
 
@@ -626,7 +875,7 @@ wrapped)</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getTextWidth">#</a>
-			<code><a href="source-class-SimplePdf.Page.html#214-233" title="Go to source code">getTextWidth</a>( <span>string <var>$text</var></span> )</code>
+			<code><a href="source-class-SimplePdf.Page.html#317-338" title="Go to source code">getTextWidth</a>( <span>string <var>$text</var></span> )</code>
 
 			<div class="description short">
 				
@@ -650,7 +899,7 @@ page, using the current font properties</p>
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code>float</code><br>width (in centimeters) that the text would use if written to the page<br />
+						<code>float</code><br>width (in the given units) that the text would use if written to the page<br />
 					</div>
 
 
@@ -671,37 +920,11 @@ page, using the current font properties</p>
 
 		<h2>Constants summary</h2>
 		<table class="summary table table-bordered table-striped" id="constants">
-		<tr data-order="CM_TO_POINT" id="CM_TO_POINT">
-
-			<td class="attributes"><code>float</code></td>
-			<td class="name"><code>
-					<a href="source-class-SimplePdf.Page.html#15-23" title="Go to source code"><b>CM_TO_POINT</b></a>
-			</code></td>
-			<td class="value"><code><span class="php-num">28.34645669291339</span></code></td>
-			<td class="description"><div>
-				<a href="#CM_TO_POINT" class="anchor">#</a>
-
-				<div class="description short">
-					
-<p>Conversion factor from PDF/PostScript points to centimeters A point is 1/72
-of an inch An inch is 2.54 centimeters So a centimeter is 72/2.54 points</p>
-
-				</div>
-
-				<div class="description detailed hidden">
-					
-<p>Conversion factor from PDF/PostScript points to centimeters A point is 1/72
-of an inch An inch is 2.54 centimeters So a centimeter is 72/2.54 points</p>
-
-
-				</div>
-			</div></td>
-		</tr>
 		<tr data-order="TEXT_ALIGN_LEFT" id="TEXT_ALIGN_LEFT">
 
 			<td class="attributes"><code>string</code></td>
 			<td class="name"><code>
-					<a href="source-class-SimplePdf.Page.html#25-30" title="Go to source code"><b>TEXT_ALIGN_LEFT</b></a>
+					<a href="source-class-SimplePdf.Page.html#15-20" title="Go to source code"><b>TEXT_ALIGN_LEFT</b></a>
 			</code></td>
 			<td class="value"><code><span class="php-quote">'left'</span></code></td>
 			<td class="description"><div>
@@ -725,7 +948,7 @@ of an inch An inch is 2.54 centimeters So a centimeter is 72/2.54 points</p>
 
 			<td class="attributes"><code>string</code></td>
 			<td class="name"><code>
-					<a href="source-class-SimplePdf.Page.html#32-37" title="Go to source code"><b>TEXT_ALIGN_RIGHT</b></a>
+					<a href="source-class-SimplePdf.Page.html#22-27" title="Go to source code"><b>TEXT_ALIGN_RIGHT</b></a>
 			</code></td>
 			<td class="value"><code><span class="php-quote">'right'</span></code></td>
 			<td class="description"><div>
@@ -740,6 +963,102 @@ of an inch An inch is 2.54 centimeters So a centimeter is 72/2.54 points</p>
 				<div class="description detailed hidden">
 					
 <p>Constant for right aligned text</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="UNITS_POINT" id="UNITS_POINT">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SimplePdf.Page.html#29-34" title="Go to source code"><b>UNITS_POINT</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-num">1</span></code></td>
+			<td class="description"><div>
+				<a href="#UNITS_POINT" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Constant for point (native) units</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Constant for point (native) units</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="UNITS_INCH" id="UNITS_INCH">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SimplePdf.Page.html#36-41" title="Go to source code"><b>UNITS_INCH</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-num">72</span></code></td>
+			<td class="description"><div>
+				<a href="#UNITS_INCH" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Constant for inch units (a point is 1/72 of an inch)</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Constant for inch units (a point is 1/72 of an inch)</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="UNITS_CENTIMETER" id="UNITS_CENTIMETER">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SimplePdf.Page.html#43-48" title="Go to source code"><b>UNITS_CENTIMETER</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-num">28.34645669291339</span></code></td>
+			<td class="description"><div>
+				<a href="#UNITS_CENTIMETER" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Constant for centimeter units (72/2.54)</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Constant for centimeter units (72/2.54)</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="UNITS_MILLIMETER" id="UNITS_MILLIMETER">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SimplePdf.Page.html#50-55" title="Go to source code"><b>UNITS_MILLIMETER</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-num">2.834645669291339</span></code></td>
+			<td class="description"><div>
+				<a href="#UNITS_MILLIMETER" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Constant for millimeter units (7.2/2.54)</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Constant for millimeter units (7.2/2.54)</p>
 
 
 				</div>
