@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates a simple 1-page PDF with center-aligned, word-wrapped lorem ipsum text and lines marking the margins
+ * Creates a simple 1-page PDF with center-aligned, word-wrapped lorem ipsum text and a rectangle marking the margins
  *
  * Usage: php examples/example.php <output-file>
  *
@@ -19,8 +19,8 @@ if (!isset($argv[1])) {
 
 $file = $argv[1];
 
-$units = \SimplePdf\Page::UNITS_INCH;
 $pageSize = \SimplePdf\Page::SIZE_LETTER;
+$units = \SimplePdf\Page::UNITS_INCH;
 $pageMargin = 1.0; // inch
 $fontSize = 12;
 $lineSpacing = 1.5;
@@ -31,18 +31,15 @@ $longText = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do ei
 $page = new \SimplePdf\Page($pageSize, $units);
 $page->setAllMargins($pageMargin);
 
-// Draw lines marking the page margins
+// Draw rectangle marking the page margins
 $page->setLineWidth(0.5);
-$stickOut = $pageMargin / 2;
-$page->drawLine(-$stickOut, 0, $page->getInnerWidth() + $stickOut, 0);
-$page->drawLine(-$stickOut, $page->getInnerHeight(), $page->getInnerWidth() + $stickOut, $page->getInnerHeight());
-$page->drawLine(0, -$stickOut, 0, $page->getInnerHeight() + $stickOut);
-$page->drawLine($page->getInnerWidth(), -$stickOut, $page->getInnerWidth(), $page->getInnerHeight() + $stickOut);
+$page->setLineDashingPattern(array(5, 3));
+$page->drawRectangle(0, 0, $page->getInnerWidth(), $page->getInnerHeight(), \SimplePdf\Page::SHAPE_DRAW_STROKE);
 
 // Write the long text, word-wrapped and aligned in the center of the page
 $page->setFontSize($fontSize);
 $page->setLineSpacing($lineSpacing);
-$page->writeText($page->getInnerWidth() / 2, 0, $longText, \SimplePdf\Page::TEXT_ALIGN_CENTER, $page->getInnerWidth());
+$page->drawTextBlock($longText, 0, \SimplePdf\Page::TEXT_ALIGN_CENTER);
 
 $pdf = new \ZendPdf\PdfDocument();
 $pdf->pages[] = $page;

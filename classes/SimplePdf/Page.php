@@ -329,15 +329,13 @@ class Page extends \ZendPdf\Page
     }
 
     /**
-     * Get page width in the given units
+     * Get the height (in the given units) of the page area excluding the set margins (if any)
      *
-     * @return float width of the page in the given units
+     * @return float page height in the given units, excluding margins
      */
-    public function getWidth()
+    public function getInnerHeight()
     {
-        $width = parent::getWidth();
-        $this->convertFromPoints($width);
-        return $width;
+        return $this->getHeight() - $this->getTopMargin() - $this->getBottomMargin();
     }
 
     /**
@@ -348,28 +346,6 @@ class Page extends \ZendPdf\Page
     public function getInnerWidth()
     {
         return $this->getWidth() - $this->getLeftMargin() - $this->getRightMargin();
-    }
-
-    /**
-     * Get page height in the given units
-     *
-     * @return float height of the page in the given units
-     */
-    public function getHeight()
-    {
-        $height = parent::getHeight();
-        $this->convertFromPoints($height);
-        return $height;
-    }
-
-    /**
-     * Get the height (in the given units) of the page area excluding the set margins (if any)
-     *
-     * @return float page height in the given units, excluding margins
-     */
-    public function getInnerHeight()
-    {
-        return $this->getHeight() - $this->getTopMargin() - $this->getBottomMargin();
     }
 
     /**
@@ -394,62 +370,41 @@ class Page extends \ZendPdf\Page
      */
     public function setFontSize($fontSize)
     {
-        $this->setFont($this->getFont(), $fontSize);
+        parent::setFont($this->getFont(), $fontSize);
     }
 
     /**
-     * Draw a line from 1 point to another
+     * Draw (and wrap) algined text within a text block, by default within the page margins
      *
-     * @param float $x1 x-coordinate (in the given units) of the point from where to draw the line
-     * @param float $y1 y-coordinate (in the given units) of the point from where to draw the line
-     * @param float $x2 x-coordinate (in the given units) of the point to where to draw the line
-     * @param float $y2 y-coordinate (in the given units) of the point to where to draw the line
+     * @param string $text text to draw; will be wrapped, but can also contain newlines already
+     * @param float $y vertical offset (from the top, in the given units) to start drawing text
+     * @param float $alignment where to align text within the block, defaults to left alignment
+     * @param float $x1 left boundary of the text block, defaults to left page margin
+     * @param float $x2 right boundary of the text block, defaults to right page margin
+     * @return float vertical offset of the drawn text
      */
-    public function drawLine($x1, $y1, $x2, $y2)
+    public function drawTextBlock($text, $y = 0, $alignment = self::TEXT_ALIGN_LEFT, $x1 = 0, $x2 = null)
     {
-        $this->convertCoordinatesFromUserSpace($x1, $y1);
-        $this->convertCoordinatesFromUserSpace($x2, $y2);
-        parent::drawLine($x1, $y1, $x2, $y2);
-    }
-
-    /**
-     * Write a (multiline / optionally wrapping) text to the page
-     *
-     * @param float $x x-coordinate (in the given units) of the anchor point of the text
-     * @param float $y y-coordinate (in the given units) of the anchor point of the text
-     * @param string $text text to write to the PDF (can contain newlines)
-     * @param float $anchorPoint horizontal position (0..1) to anchor each line, defaults to self::TEXT_ALIGN_LEFT
-     * @param float $wrapWidth width (in the given units) to wrap text at, or leave out for no wrapping
-     */
-    public function writeText($x, $y, $text, $anchorPoint = self::TEXT_ALIGN_LEFT, $wrapWidth = 0)
-    {
-        if ($wrapWidth > 0) {
-            $text = $this->wordWrapText($text, $wrapWidth);
+        if (is_null($x2)) {
+            $x2 = $this->getInnerWidth();
         }
 
+        $width = $x2 - $x1;
+        $text = $this->wordWrapText($text, $width);
+        $x = $x1 + $alignment * $width;
+
         $lineHeight = $this->getLineHeight();
-        foreach (explode(PHP_EOL, $text) as $index => $line) {
+        $lines = explode(PHP_EOL, $text);
+        foreach ($lines as $index => $line) {
             if (empty($line)) {
                 continue;
             }
 
-            $anchorOffset = ($anchorPoint == 0) ? 0 : -$anchorPoint * $this->getTextWidth($line);
-            $this->writeLine($x + $anchorOffset, $y + $index * $lineHeight, $line);
+            $offset = ($alignment == 0) ? 0 : -$alignment * $this->getTextWidth($line);
+            $this->drawText($line, $x + $offset, $y + $index * $lineHeight);
         }
-    }
 
-    /**
-     * Write a single line of text to the page
-     *
-     * @param float $x x-coordinate (in the given units) of the top-left corner where the text should start
-     * @param float $y y-coordinate (in the given units) of the top-left corner where the text should start
-     * @param string $line line to write to the page, should not contain newlines (and will NOT be wrapped)
-     */
-    public function writeLine($x, $y, $line)
-    {
-        $this->convertCoordinatesFromUserSpace($x, $y);
-        $y -= $this->getFontSize();
-        $this->drawText($line, $x, $y, 'UTF-8');
+        return count($lines) * $lineHeight;
     }
 
     /**
@@ -512,5 +467,119 @@ class Page extends \ZendPdf\Page
         $textWidth = $fontSize * array_sum($widths) / $font->getUnitsPerEm();
         $this->convertFromPoints($textWidth);
         return $textWidth;
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawCircle() for documentation
+     */
+    public function drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null)
+    {
+        $this->convertCoordinatesFromUserSpace($x, $y);
+        $this->convertToPoints($radius);
+        parent::drawCircle($x, $y, $radius, $param4, $param5, $param6);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawEllipse() for documentation
+     */
+    public function drawEllipse($x1, $y1, $x2, $y2, $param5 = null, $param6 = null, $param7 = null)
+    {
+        $this->convertCoordinatesFromUserSpace($x1, $y1);
+        $this->convertCoordinatesFromUserSpace($x2, $y2);
+        parent::drawEllipse($x1, $y1, $x2, $y2, $param5, $param6, $param7);
+    }
+
+    public function drawImage(\ZendPdf\Resource\Image\AbstractImage $image, $x1, $y1, $x2, $y2)
+    {
+        $this->convertCoordinatesFromUserSpace($x1, $y1);
+        $this->convertCoordinatesFromUserSpace($x2, $y2);
+        list($y1, $y2) = array($y2, $y1);
+        parent::drawImage($image, $x1, $y1, $x2, $y2);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawLine() for documentation
+     */
+    public function drawLine($x1, $y1, $x2, $y2)
+    {
+        $this->convertCoordinatesFromUserSpace($x1, $y1);
+        $this->convertCoordinatesFromUserSpace($x2, $y2);
+        list($y1, $y2) = array($y2, $y1);
+        parent::drawLine($x1, $y1, $x2, $y2);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawPolygon() for documentation
+     */
+    public function drawPolygon($x, $y, $fillType = \ZendPdf\Page::SHAPE_DRAW_FILL_AND_STROKE, $fillMethod = \ZendPdf\Page::FILL_METHOD_NON_ZERO_WINDING)
+    {
+        foreach ($x as $index => &$value) {
+            $this->convertCoordinatesFromUserSpace($value, $y[$index]);
+        }
+        $x = array_reverse($x, true);
+        $y = array_reverse($y, true);
+        parent::drawPolygon($x, $y, $fillType, $fillMethod);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawRectangle() for documentation
+     */
+    public function drawRectangle($x1, $y1, $x2, $y2, $fillType = \ZendPdf\Page::SHAPE_DRAW_FILL_AND_STROKE)
+    {
+        $this->convertCoordinatesFromUserSpace($x1, $y1);
+        $this->convertCoordinatesFromUserSpace($x2, $y2);
+        list($y1, $y2) = array($y2, $y1);
+        parent::drawRectangle($x1, $y1, $x2, $y2, $fillType);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawRoundedRectangle() for documentation
+     */
+    public function drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $fillType = \ZendPdf\Page::SHAPE_DRAW_FILL_AND_STROKE)
+    {
+        $this->convertCoordinatesFromUserSpace($x1, $y1);
+        $this->convertCoordinatesFromUserSpace($x2, $y2);
+        list($y1, $y2) = array($y2, $y1);
+        $this->convertToPoints($radius);
+        parent::drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $fillType);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::drawText() for documentation
+     */
+    public function drawText($text, $x, $y, $charEncoding = '')
+    {
+        $this->convertCoordinatesFromUserSpace($x, $y);
+        $y -= $this->getFontSize();
+        parent::drawText($text, $x, $y, $charEncoding);
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::getHeight() for documentation
+     */
+    public function getHeight()
+    {
+        $height = parent::getHeight();
+        $this->convertFromPoints($height);
+        return $height;
+    }
+
+    /**
+     * Wrapper taking custom units and margins into account
+     * @see \ZendPdf\Page::getWidth() for documentation
+     */
+    public function getWidth()
+    {
+        $width = parent::getWidth();
+        $this->convertFromPoints($width);
+        return $width;
     }
 }
