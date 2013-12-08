@@ -130,10 +130,12 @@ class Page extends \ZendPdf\Page
      * Sets the conversion factor to use to convert from/to native units (points)
      *
      * @param float $unitConversion new conversion factor
+     * @return \SimplePdf\Page this page
      */
     public function setUnitConversion($unitConversion)
     {
         $this->unitConversion = $unitConversion;
+        return $this;
     }
 
     /**
@@ -204,10 +206,12 @@ class Page extends \ZendPdf\Page
      * Sets the line spacing to use for future writeText() / writeLine() calls
      *
      * @param float $lineSpacing new line spacing value to use, 1.0 being 'normal' distance
+     * @return \SimplePdf\Page this page
      */
     public function setLineSpacing($lineSpacing)
     {
         $this->lineSpacing = $lineSpacing;
+        return $this;
     }
 
     /**
@@ -226,11 +230,13 @@ class Page extends \ZendPdf\Page
      * Set a new left margin, in the given units
      *
      * @param float $margin new left margin, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setLeftMargin($margin)
     {
         $this->convertToPoints($margin);
         $this->marginLeft = $margin;
+        return $this;
     }
 
     /**
@@ -249,11 +255,13 @@ class Page extends \ZendPdf\Page
      * Set a new right margin, in the given units
      *
      * @param float $margin new right margin, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setRightMargin($margin)
     {
         $this->convertToPoints($margin);
         $this->marginRight = $margin;
+        return $this;
     }
 
     /**
@@ -272,11 +280,13 @@ class Page extends \ZendPdf\Page
      * Set a new top margin, in the given units
      *
      * @param float $margin new top margin, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setTopMargin($margin)
     {
         $this->convertToPoints($margin);
         $this->marginTop = $margin;
+        return $this;
     }
 
     /**
@@ -295,11 +305,13 @@ class Page extends \ZendPdf\Page
      * Set a new bottom margin, in the given units
      *
      * @param float $margin new bottom margin, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setBottomMargin($margin)
     {
         $this->convertToPoints($margin);
         $this->marginBottom = $margin;
+        return $this;
     }
 
     /**
@@ -309,6 +321,7 @@ class Page extends \ZendPdf\Page
      * @param float $marginRight new right margin, in the given units
      * @param float $marginTop new top margin, in the given units
      * @param float $marginBottom new bottom margin, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setMargins($marginLeft, $marginRight, $marginTop, $marginBottom)
     {
@@ -316,16 +329,19 @@ class Page extends \ZendPdf\Page
         $this->setRightMargin($marginRight);
         $this->setTopMargin($marginTop);
         $this->setBottomMargin($marginBottom);
+        return $this;
     }
 
     /**
      * Set a new margin for all sides, in the given units
      *
      * @param float $margin new margin to set on all sides, in the given units
+     * @return \SimplePdf\Page this page
      */
     public function setAllMargins($margin)
     {
         $this->setMargins($margin, $margin, $margin, $margin);
+        return $this;
     }
 
     /**
@@ -360,7 +376,7 @@ class Page extends \ZendPdf\Page
             $fontSize = $this->getFontSize();
         }
 
-        parent::setFont($font, $fontSize);
+        return parent::setFont($font, $fontSize);
     }
 
     /**
@@ -370,7 +386,7 @@ class Page extends \ZendPdf\Page
      */
     public function setFontSize($fontSize)
     {
-        parent::setFont($this->getFont(), $fontSize);
+        return parent::setFont($this->getFont(), $fontSize);
     }
 
     /**
@@ -381,7 +397,7 @@ class Page extends \ZendPdf\Page
      * @param float $alignment where to align text within the block, defaults to left alignment
      * @param float $x1 left boundary of the text block, defaults to left page margin
      * @param float $x2 right boundary of the text block, defaults to right page margin
-     * @return float vertical offset of the drawn text
+     * @return \SimplePdf\Page this page
      */
     public function drawTextBlock($text, $y = 0, $alignment = self::TEXT_ALIGN_LEFT, $x1 = 0, $x2 = null)
     {
@@ -404,7 +420,7 @@ class Page extends \ZendPdf\Page
             $this->drawText($line, $x + $offset, $y + $index * $lineHeight);
         }
 
-        return count($lines) * $lineHeight;
+        return $this;
     }
 
     /**
@@ -475,9 +491,8 @@ class Page extends \ZendPdf\Page
      */
     public function drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null)
     {
-        $this->convertCoordinatesFromUserSpace($x, $y);
-        $this->convertToPoints($radius);
-        parent::drawCircle($x, $y, $radius, $param4, $param5, $param6);
+        // Don't convert units and call parent::drawCircle(), since it calls drawEllipse which will convert units twice!
+        return $this->drawEllipse($x - $radius, $y - $radius, $x + $radius, $y + $radius, $param4, $param5, $param6);
     }
 
     /**
@@ -488,7 +503,8 @@ class Page extends \ZendPdf\Page
     {
         $this->convertCoordinatesFromUserSpace($x1, $y1);
         $this->convertCoordinatesFromUserSpace($x2, $y2);
-        parent::drawEllipse($x1, $y1, $x2, $y2, $param5, $param6, $param7);
+        list($y1, $y2) = array($y2, $y1);
+        return parent::drawEllipse($x1, $y1, $x2, $y2, $param5, $param6, $param7);
     }
 
     public function drawImage(\ZendPdf\Resource\Image\AbstractImage $image, $x1, $y1, $x2, $y2)
@@ -496,7 +512,7 @@ class Page extends \ZendPdf\Page
         $this->convertCoordinatesFromUserSpace($x1, $y1);
         $this->convertCoordinatesFromUserSpace($x2, $y2);
         list($y1, $y2) = array($y2, $y1);
-        parent::drawImage($image, $x1, $y1, $x2, $y2);
+        return parent::drawImage($image, $x1, $y1, $x2, $y2);
     }
 
     /**
@@ -508,7 +524,7 @@ class Page extends \ZendPdf\Page
         $this->convertCoordinatesFromUserSpace($x1, $y1);
         $this->convertCoordinatesFromUserSpace($x2, $y2);
         list($y1, $y2) = array($y2, $y1);
-        parent::drawLine($x1, $y1, $x2, $y2);
+        return parent::drawLine($x1, $y1, $x2, $y2);
     }
 
     /**
@@ -522,7 +538,7 @@ class Page extends \ZendPdf\Page
         }
         $x = array_reverse($x, true);
         $y = array_reverse($y, true);
-        parent::drawPolygon($x, $y, $fillType, $fillMethod);
+        return parent::drawPolygon($x, $y, $fillType, $fillMethod);
     }
 
     /**
@@ -534,7 +550,7 @@ class Page extends \ZendPdf\Page
         $this->convertCoordinatesFromUserSpace($x1, $y1);
         $this->convertCoordinatesFromUserSpace($x2, $y2);
         list($y1, $y2) = array($y2, $y1);
-        parent::drawRectangle($x1, $y1, $x2, $y2, $fillType);
+        return parent::drawRectangle($x1, $y1, $x2, $y2, $fillType);
     }
 
     /**
@@ -547,7 +563,7 @@ class Page extends \ZendPdf\Page
         $this->convertCoordinatesFromUserSpace($x2, $y2);
         list($y1, $y2) = array($y2, $y1);
         $this->convertToPoints($radius);
-        parent::drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $fillType);
+        return parent::drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $fillType);
     }
 
     /**
@@ -558,7 +574,7 @@ class Page extends \ZendPdf\Page
     {
         $this->convertCoordinatesFromUserSpace($x, $y);
         $y -= $this->getFontSize();
-        parent::drawText($text, $x, $y, $charEncoding);
+        return parent::drawText($text, $x, $y, $charEncoding);
     }
 
     /**
