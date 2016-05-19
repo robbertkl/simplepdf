@@ -473,7 +473,7 @@ class Page extends \ZendPdf\Page
     {
         $font = $this->getFont();
         $fontSize = $this->getFontSize();
-        $text = iconv('UTF-8', 'UTF-16BE', $text);
+        $text = iconv('WINDOWS-1252', 'UTF-16BE', $text);
         $chars = array();
         for ($i = 0; $i < strlen($text); $i++) {
             $chars[] = (ord($text[$i++]) << 8) | ord($text[$i]);
@@ -570,7 +570,7 @@ class Page extends \ZendPdf\Page
      * Wrapper taking custom units and margins into account
      * @see \ZendPdf\Page::drawText() for documentation
      */
-    public function drawText($text, $x, $y, $charEncoding = '')
+    public function drawText($text, $x, $y, $charEncoding = 'WINDOWS-1252')
     {
         $this->convertCoordinatesFromUserSpace($x, $y);
         $y -= $this->getFontSize();
